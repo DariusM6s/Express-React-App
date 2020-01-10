@@ -2,6 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import { connectDB } from './connectMongoDB';
+import './initializeMongoDB';
+import { authenticationRoute } from './authenticate';
 
 let port = process.env.PORT || 3000;
 let app = express();
@@ -11,6 +13,8 @@ app.listen(port, console.log(`Server is listening on PORT: ${port}`));
 // 	res.send('Labas --> asile!!!');
 // });
 app.use(cors(), bodyParser.urlencoded({ extended: true }), bodyParser.json());
+
+authenticationRoute(app);
 
 export const addNewTask = async task => {
 	let db = await connectDB();
