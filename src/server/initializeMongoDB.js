@@ -4,8 +4,10 @@ import { connectDB } from './connectMongoDB';
 async function initializeDB () {
 	let db = await connectDB();
 	let user = await db.collection(`users`).findOne({ id: 'U1' });
+	console.log('User?', user);
 	if (!user) {
 		for (let collectionName in defaultState) {
+			console.log('initializing connection', collectionName);
 			let collection = db.collection(collectionName);
 			await collection.insertMany(defaultState[collectionName]);
 		}
